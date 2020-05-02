@@ -28,7 +28,7 @@ def create_directory(base_path):
         os.mkdir(csv_files_directory_path)
     directory_path = Path(base_path + "/csv_files/" + str(datetime.date.today()))
     if os.path.exists(directory_path):
-        print("Directory already exists.")
+        print("Base directory already exists.")
     else:
         os.mkdir(directory_path)
     return str(directory_path)
@@ -126,14 +126,36 @@ def download_csv(driver):
 
 
 if __name__ == "__main__":
-    BASE_PATH = os.path.abspath(os.getcwd())
-    BROWSER = create_driver(BASE_PATH)
-    set_static_values(BROWSER)
-    START = timer()
-    for symbol in stocks_lists.nifty_50:
-        set_symbol(BROWSER, symbol)
-        download_csv(BROWSER)
-        clear_options(BROWSER)
+    SYMBOL_INPUT = []
+    print("NSE Historical Data Downloader")
+    option = input(
+        """Please select your choice:\n1. Single Stock Symbol (Average Response Time: 1-1.5secs)\n2. Nifty 50 List (Average Response Time: 50-55secs)\n3. Nifty 100 List (Average Response Time: 120-135secs)\n4. Nifty 500 List (Average Response Time: 9-10mins)\n
+Your choice: """
+    )
 
-    print("Fetched 50 files in: " + str(timer() - START))
-    BROWSER.quit()
+    if option == "1":
+        SYMBOL_INPUT.append(input("Please enter the correct stock symbol: "))
+    elif option == "2":
+        print("Nifty 50 selected")
+        SYMBOL_INPUT = stocks_lists.nifty_50
+    elif option == "3":
+        print("Nifty 100 selected")
+        SYMBOL_INPUT = stocks_lists.nifty_100
+    elif option == "4":
+        print("Nifty 500 selected")
+        SYMBOL_INPUT = stocks_lists.nifty_500
+    else:
+        print("Wrong input")
+
+    if SYMBOL_INPUT is not None:
+        BASE_PATH = os.path.abspath(os.getcwd())
+        BROWSER = create_driver(BASE_PATH)
+        set_static_values(BROWSER)
+        START = timer()
+        for symbol in SYMBOL_INPUT:
+            set_symbol(BROWSER, symbol)
+            download_csv(BROWSER)
+            clear_options(BROWSER)
+
+        print("Fetched files in: " + str(timer() - START))
+        BROWSER.quit()
