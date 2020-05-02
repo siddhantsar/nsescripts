@@ -1,0 +1,15 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version|0.19t|$
+Arch|x86_64-msvc|$
+
+[PLUGINS]
+
+[INVALID]
+C:\Program Files\VideoLAN\VLC\npvlc.dll|$
+1565804226000|$
+C:\Program Files\Java\jre1.8.0_241\bin\plugin2\npjp2.dll|$
+1586525651667|$
+C:\Program Files\Java\jre1.8.0_241\bin\dtplugin\npdeployJava1.dll|$
+1586525651529|$
