@@ -23,6 +23,9 @@ def create_directory(base_path):
     """
     Method creates directory with date to keep data feasible and clean.
     """
+    csv_files_directory_path = Path(str(base_path) + "/csv_files")
+    if not os.path.exists(csv_files_directory_path):
+        os.mkdir(csv_files_directory_path)
     directory_path = Path(base_path + "/csv_files/" + str(datetime.date.today()))
     if os.path.exists(directory_path):
         print("Directory already exists.")
@@ -35,7 +38,7 @@ def create_driver(base_path):
     """
     Method loads the profile which is required to auto download files without prompt
     regarding opening/saving file.
-    Method creates browser driver which is essential for Selenium.s
+    Method creates browser driver which is essential for Selenium.
     """
     profile_path = str(Path(base_path + "/profiles/nuacbya2.nseprofile/"))
     profile = wd.FirefoxProfile(profile_path)
