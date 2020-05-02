@@ -1,5 +1,13 @@
 """
+This module consists of 3 lists, Nifty 50, Nifty 100, Nifty 500,
+These are indices provided by National Stock Exchange, India.
 
+Why these hardcoded lists?
+As stock market is all about timing, these lists are hardcoded so that
+    1. Most searched/fetched indexes
+    2. The stock symbols are directly from NSE, India which leaves no
+        area of error.
+    3. Direct and easy to use.
 """
 
 nifty_50 = [
