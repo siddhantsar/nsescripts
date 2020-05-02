@@ -1,0 +1,6 @@
+*.pyc
+__pycache__
+/.vscode
+.DS_Store
+/profiles
+/csv_files
