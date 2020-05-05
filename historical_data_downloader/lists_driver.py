@@ -17,10 +17,13 @@ def download_data(filename, url):
     response = requests.get(url).content.decode("utf-8")
     stocks_list = list(csv.reader(response.splitlines(), delimiter=","))
 
+    if not os.path.exists("./lists/"):
+        os.mkdir("lists")
+
     for stocks in stocks_list[1:]:
         symbols_list.append(stocks[2])
 
-    with open(filename + ".pickle", "wb") as file:
+    with open("./lists/" + filename + ".pickle", "wb") as file:
         pickle.dump(symbols_list, file)
 
     return symbols_list
@@ -30,14 +33,14 @@ def nifty_50(refresh):
     filename = "nifty_50"
     if refresh:
         nifty_50_list = download_data(
-            filename, "https://www1.nseindia.com/content/indices/ind_nifty50list.csv"
+            filename, "https://www1.nseindia.com/content/indices/ind_nifty50list.csv",
         )
     elif not refresh and not os.path.exists(filename + ".pickle"):
         nifty_50_list = download_data(
-            filename, "https://www1.nseindia.com/content/indices/ind_nifty50list.csv"
+            filename, "https://www1.nseindia.com/content/indices/ind_nifty50list.csv",
         )
     else:
-        with open(filename + ".pickle", "rb") as file:
+        with open("./lists/" + filename + ".pickle", "rb") as file:
             nifty_50_list = pickle.load(file)
 
     return nifty_50_list
@@ -46,32 +49,32 @@ def nifty_50(refresh):
 def nifty_100(refresh):
     filename = "nifty_100"
     if refresh:
-        nifty_50_list = download_data(
-            filename, "https://www1.nseindia.com/content/indices/ind_nifty100list.csv"
+        nifty_100_list = download_data(
+            filename, "https://www1.nseindia.com/content/indices/ind_nifty100list.csv",
         )
-    elif not refresh and not os.path.exists(filename + ".pickle"):
-        nifty_50_list = download_data(
-            filename, "https://www1.nseindia.com/content/indices/ind_nifty100list.csv"
+    elif not refresh and not os.path.exists("./lists/" + filename + ".pickle"):
+        nifty_100_list = download_data(
+            filename, "https://www1.nseindia.com/content/indices/ind_nifty100list.csv",
         )
     else:
-        with open(filename + ".pickle", "rb") as file:
-            nifty_50_list = pickle.load(file)
+        with open("./lists/" + filename + ".pickle", "rb") as file:
+            nifty_100_list = pickle.load(file)
 
-    return nifty_50_list
+    return nifty_100_list
 
 
 def nifty_500(refresh):
     filename = "nifty_500"
     if refresh:
-        nifty_50_list = download_data(
+        nifty_500_list = download_data(
             filename, "https://www1.nseindia.com/content/indices/ind_nifty500list.csv"
         )
-    elif not refresh and not os.path.exists(filename + ".pickle"):
-        nifty_50_list = download_data(
-            filename, "https://www1.nseindia.com/content/indices/ind_nifty500list.csv"
+    elif not refresh and not os.path.exists("./lists/" + filename + ".pickle"):
+        nifty_500_list = download_data(
+            filename, "https://www1.nseindia.com/content/indices/ind_nifty500list.csv",
         )
     else:
-        with open(filename + ".pickle", "rb") as file:
-            nifty_50_list = pickle.load(file)
+        with open("./lists/" + filename + ".pickle", "rb") as file:
+            nifty_500_list = pickle.load(file)
 
-    return nifty_50_list
+    return nifty_500_list
