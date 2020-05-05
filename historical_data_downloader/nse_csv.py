@@ -3,11 +3,10 @@ Selenium based Python script to download historical stocks data
     from National Stock Exchange, India.
 This script should only be used for personal/educational purpose.
 
-
 To facilitate faster response time, this script do not validate the
-stock symbol dynamically from National Stock Exchange, India.
+    stock symbol dynamically from National Stock Exchange, India.
 Please use correct stock symbol provided by National Stock Exchange
-only for accurate result and to avoid script failure.
+    only for accurate result and to avoid script failure.
 """
 import os
 import time
@@ -16,7 +15,55 @@ from pathlib import Path
 from time import time as timer
 from selenium import webdriver as wd
 from selenium.webdriver.support.ui import Select
-import stocks_lists
+import lists_driver
+
+
+def time_period_menu():
+    """
+    User Menu for selecting the time period of data to be downloaded.
+    """
+
+    choice = input(
+        """Please select desired time period:\n1. 01 day\n2. 07 days\n3. 15 days\n4. 01 month\n5. 03 months\n6. 12 months\n7. 24 months\n
+Your choice: """
+    )
+    if choice == "1":
+        print("Downloading past 1 day data")
+        return "day"
+    elif choice == "2":
+        print("Downloading past 7 days data")
+        return "week"
+    elif choice == "3":
+        print("Downloading last 15 days data")
+        return "15days"
+    elif choice == "4":
+        print("Downloading past 1 month data")
+        return "1month"
+    elif choice == "5":
+        print("Downloading past 3 months data")
+        return "3month"
+    elif choice == "6":
+        print("Downloading past 12 months data")
+        return "12month"
+    elif choice == "7":
+        print("Downloading past 24 months data")
+        return "24month"
+    else:
+        print("Wrong input")
+        return None
+
+
+def refresh_index_list():
+    choice = input(
+        """Do you want to refresh Index List? (If any new stock is listed by NSE, India)\n1. Yes\n2. No
+Your choice: """
+    )
+    if choice == "1":
+        return True
+    elif choice == "2":
+        return False
+    else:
+        return None
 
 
 def create_directory(base_path):
@@ -132,6 +179,8 @@ def download_csv(driver):
 if __name__ == "__main__":
     SYMBOL_INPUT = []
     TIME_PERIOD = None
+    REFRESH_DATA = False
+
     print("NSE Historical Data Downloader")
     OPTION = input(
         """Please select your choice:\n1. Single Stock Symbol (Average Response Time: 1-1.5secs)\n2. User Provided Stock Symbol List (Variable Response Time)\n3. Nifty 50 List (Average Response Time: 50-55secs)\n4. Nifty 100 List (Average Response Time: 120-135secs)\n5. Nifty 500 List (Average Response Time: 9-10mins)\n
@@ -143,44 +192,21 @@ Your choice: """
     elif OPTION == "2":
         SYMBOL_INPUT = input("Please enter SPACE separated stock symbols: ").split(" ")
     elif OPTION == "3":
+        REFRESH_DATA = refresh_index_list()
+        SYMBOL_INPUT = lists_driver.nifty_50(REFRESH_DATA)
         print("Nifty 50 selected")
-        SYMBOL_INPUT = stocks_lists.nifty_50
     elif OPTION == "4":
+        REFRESH_DATA = refresh_index_list()
+        SYMBOL_INPUT = lists_driver.nifty_100(REFRESH_DATA)
         print("Nifty 100 selected")
-        SYMBOL_INPUT = stocks_lists.nifty_100
     elif OPTION == "5":
+        REFRESH_DATA = refresh_index_list()
+        SYMBOL_INPUT = lists_driver.nifty_500(REFRESH_DATA)
         print("Nifty 500 selected")
-        SYMBOL_INPUT = stocks_lists.nifty_500
     else:
         print("Wrong input")
 
-    OPTION = input(
-        """Please select desired time period:\n1. 01 day\n2. 07 days\n3. 15 days\n4. 01 month\n5. 03 months\n6. 12 months\n7. 24 months\n
-Your choice: """
-    )
-    if OPTION == "1":
-        print("Downloading past 1 day data")
-        TIME_PERIOD = "day"
-    elif OPTION == "2":
-        print("Downloading past 7 days data")
-        TIME_PERIOD = "week"
-    elif OPTION == "3":
-        print("Downloading last 15 days data")
-        TIME_PERIOD = "15days"
-    elif OPTION == "4":
-        print("Downloading past 1 month data")
-        TIME_PERIOD = "1month"
-    elif OPTION == "5":
-        print("Downloading past 3 months data")
-        TIME_PERIOD = "3month"
-    elif OPTION == "6":
-        print("Downloading past 12 months data")
-        TIME_PERIOD = "12month"
-    elif OPTION == "7":
-        print("Downloading past 24 months data")
-        TIME_PERIOD = "24month"
-    else:
-        print("Wrong input")
+    TIME_PERIOD = time_period_menu()
 
     if SYMBOL_INPUT is not None and TIME_PERIOD is not None:
         BASE_PATH = os.path.abspath(os.getcwd())
