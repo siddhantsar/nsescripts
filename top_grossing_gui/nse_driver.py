@@ -23,13 +23,13 @@ def start_fetch():
         stocks_list.append(
             [
                 row["symbol"],
-                row["ltP"],
-                row["open"],
-                row["high"],
-                row["low"],
+                ("₹" + row["ltP"]),
+                ("₹" + row["open"]),
+                ("₹" + row["high"]),
+                ("₹" + row["low"]),
                 row["per"],
-                row["ptsC"],
-                row["trdVol"],
+                ("₹" + row["ptsC"]),
+                (row["trdVol"] + "L"),
             ]
         )
 
