@@ -17,9 +17,13 @@ class Worker(qtc.QThread):
     @qtc.pyqtSlot(int)
     def call_api(self, interval):
         self.status.emit(self.thread_active)
-        while self.thread_active:
-            self.fetch_completed.emit(nse_driver.start_fetch())
-            time.sleep(interval)
+        try:
+            while self.thread_active:
+                print(interval)
+                self.fetch_completed.emit(nse_driver.start_fetch())
+                time.sleep(interval)
+        except OverflowError:
+            print("Time Interval Too Large")
 
     def stop(self):
         self.thread_active = False
@@ -34,11 +38,11 @@ class MainDriver(QtWidgets.QMainWindow):
         super().__init__()
         self.stock_data = nse_driver.start_fetch()
         self.ui = Ui_AppMainWindow()
-        self.setWindowIcon(QtGui.QIcon("./icon.png"))
+        self.setWindowIcon(QtGui.QIcon("./icon.ico"))
         self.ui.setupUi(self)
         self.ui.start_button.released.connect(self.start_thread)
         self.ui.stop_button.clicked.connect(self.stop_thread)
-        self.ui.action_set_interval.triggered.connect(self.send_interval)
+        self.ui.stop_button.setEnabled(False)
         self.show()
 
     def start_thread(self):
@@ -54,11 +58,22 @@ class MainDriver(QtWidgets.QMainWindow):
 
     def start_fetch(self):
         interval = self.get_interval()
+        if interval is None:
+            self.ui.status_bar.showMessage("Default Time Interval Selected: 30s", 5000)
+            self.fetch_requested_signal.emit(30)
+
         self.fetch_requested_signal.emit(interval)
+        self.ui.status_bar.showMessage(
+            "Time Interval Selected: {}s".format(str(interval)), 5000
+        )
+        self.ui.start_button.setEnabled(False)
+        self.ui.stop_button.setEnabled(True)
         print("Thread Started")
 
     def stop_thread(self):
         self.worker.stop()
+        self.ui.start_button.setEnabled(True)
+        self.ui.stop_button.setEnabled(False)
         print("Thread Killed")
 
     def get_interval(self):
@@ -69,18 +84,15 @@ class MainDriver(QtWidgets.QMainWindow):
         if submitted and item:
             return int(item)
 
-    def send_interval(self):
-        interval = self.get_interval()
-        self.time_interval_signal.connect(self.worker.set_interval)
-        self.time_interval_signal.emit(int(interval))
-
     def set_status(self, status):
         if status:
-            self.ui.status_bar.showMessage("Active")
-            self.ui.status_bar.setStyleSheet("color: green")
+            self.ui.connection.setText("Active")
+            # self.ui.status_bar.showMessage("Active")
+            self.ui.connection.setStyleSheet("color: green")
         else:
-            self.ui.status_bar.showMessage("Inactive")
-            self.ui.status_bar.setStyleSheet("color: red")
+            self.ui.connection.setText("Inactive")
+            # self.ui.status_bar.showMessage("Inactive")
+            self.ui.connection.setStyleSheet("color: red")
 
     def set_table(self, stock_data):
         self.ui.price_table.setRowCount(0)
