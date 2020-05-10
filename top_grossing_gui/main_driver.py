@@ -61,11 +61,11 @@ class MainDriver(QtWidgets.QMainWindow):
         if interval is None:
             self.ui.status_bar.showMessage("Default Time Interval Selected: 30s", 5000)
             self.fetch_requested_signal.emit(30)
-
-        self.fetch_requested_signal.emit(interval)
-        self.ui.status_bar.showMessage(
-            "Time Interval Selected: {}s".format(str(interval)), 5000
-        )
+        else:
+            self.fetch_requested_signal.emit(interval)
+            self.ui.status_bar.showMessage(
+                "Time Interval Selected: {}s".format(str(interval)), 5000
+            )
         self.ui.start_button.setEnabled(False)
         self.ui.stop_button.setEnabled(True)
         print("Thread Started")
@@ -87,11 +87,9 @@ class MainDriver(QtWidgets.QMainWindow):
     def set_status(self, status):
         if status:
             self.ui.connection.setText("Active")
-            # self.ui.status_bar.showMessage("Active")
             self.ui.connection.setStyleSheet("color: green")
         else:
             self.ui.connection.setText("Inactive")
-            # self.ui.status_bar.showMessage("Inactive")
             self.ui.connection.setStyleSheet("color: red")
 
     def set_table(self, stock_data):

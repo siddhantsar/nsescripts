@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main_ui.ui'
+# Form implementation generated from reading ui file '.\main_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -141,7 +141,7 @@ class Ui_AppMainWindow(object):
 
     def retranslateUi(self, AppMainWindow):
         _translate = QtCore.QCoreApplication.translate
-        AppMainWindow.setWindowTitle(_translate("AppMainWindow", "MainWindow"))
+        AppMainWindow.setWindowTitle(_translate("AppMainWindow", "Top Grossing Equity Securities - NSE, India"))
         self.total.setText(_translate("AppMainWindow", "Total"))
         self.total_num.setText(_translate("AppMainWindow", "0"))
         self.profit.setText(_translate("AppMainWindow", "Profit"))
