@@ -27,8 +27,8 @@ def start_fetch():
                 ("₹" + row["open"]),
                 ("₹" + row["high"]),
                 ("₹" + row["low"]),
-                row["per"],
                 ("₹" + row["ptsC"]),
+                row["per"],
                 (row["trdVol"] + "L"),
             ]
         )
