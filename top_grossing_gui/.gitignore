@@ -1,5 +1,5 @@
 *.pyc
-./icon.ico
-./__pycache__
-./.vscode
-./main_ui.ui 
+icon.ico
+__pycache__
+.vscode
+main_ui.ui 
