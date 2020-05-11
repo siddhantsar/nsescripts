@@ -19,7 +19,6 @@ class Worker(qtc.QThread):
         self.status.emit(self.thread_active)
         try:
             while self.thread_active:
-                print(interval)
                 self.fetch_completed.emit(nse_driver.start_fetch())
                 time.sleep(interval)
         except OverflowError:

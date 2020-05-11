@@ -303,7 +303,7 @@
       </column>
       <column>
        <property name="text">
-        <string>New Column</string>
+        <string>% Change</string>
        </property>
       </column>
       <column>

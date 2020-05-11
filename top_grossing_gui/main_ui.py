@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\main_ui.ui'
+# Form implementation generated from reading ui file 'main_ui.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -167,6 +167,6 @@ class Ui_AppMainWindow(object):
         item = self.price_table.horizontalHeaderItem(5)
         item.setText(_translate("AppMainWindow", "Points"))
         item = self.price_table.horizontalHeaderItem(6)
-        item.setText(_translate("AppMainWindow", "New Column"))
+        item.setText(_translate("AppMainWindow", "% Change"))
         item = self.price_table.horizontalHeaderItem(7)
         item.setText(_translate("AppMainWindow", "Volume"))
